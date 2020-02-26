@@ -218,6 +218,9 @@ PRODUCT_SYSTEM_EXT_PROPERTIES += \
 PRODUCT_PACKAGES += \
     fastbootd
 
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.fastbootd.available=true
+
 # Fingerprint
 PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint@2.3-service.oneplus \
