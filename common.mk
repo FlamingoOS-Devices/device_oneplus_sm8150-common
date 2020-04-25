@@ -197,6 +197,10 @@ PRODUCT_VENDOR_PROPERTIES += \
 PRODUCT_PACKAGES += \
     DeviceSettings
 
+# Dex
+PRODUCT_SYSTEM_PROPERTIES += \
+    dalvik.vm.dex2oat64.enabled=true
+
 # Display
 PRODUCT_PACKAGES += \
     vendor.oneplus.hardware.display@1.0.vendor
