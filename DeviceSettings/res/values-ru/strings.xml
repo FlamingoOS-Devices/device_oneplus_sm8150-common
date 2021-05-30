@@ -37,4 +37,7 @@
     <string name="always_on_camera_dialog_summary_on">Всегда спрашивать перед открытием</string>
     <string name="always_on_camera_dialog_summary_off">Спрашивать только при выключенном экране</string>
 
+    <!-- Dolby -->
+    <string name="audio_title">Звук</string>
+    <string name="dolby_title">Dolby Atmos</string>
 </resources>
