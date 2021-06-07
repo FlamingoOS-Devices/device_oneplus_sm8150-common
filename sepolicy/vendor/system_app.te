@@ -21,3 +21,5 @@ allow system_app hal_cameraHIDL_hwservice:hwservice_manager find;
 binder_call(system_app, hal_cameraHIDL_default)
 
 get_prop(system_app, deviceid_prop)
+
+allow system_app oem_service:service_manager { find };
