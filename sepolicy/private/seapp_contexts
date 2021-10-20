@@ -1,1 +1,2 @@
 user=system seinfo=platform name=org.lineageos.camerahelper isPrivApp=true domain=camera_helper_app
+user=system seinfo=platform name=com.flamingo.device.alertslider domain=alertslider_app type=system_app_data_file

@@ -1,0 +1,8 @@
+type alertslider_app, domain, coredomain;
+
+app_domain(alertslider_app)
+
+allow alertslider_app self:netlink_kobject_uevent_socket { read bind setopt create };
+
+# Allow alertslider_app to find app_api_service
+allow alertslider_app app_api_service:service_manager find;
