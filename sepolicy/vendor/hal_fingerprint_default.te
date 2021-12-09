@@ -45,3 +45,6 @@ add_hwservice(hal_fingerprint_default, hal_oneplus_fingerprint_hwservice)
 
 # Allow hal_fingerprint_default to read sensor_version sysfs node
 allow hal_fingerprint_default sysfs_fpc:file r_file_perms;
+
+# Allow hal_fingerprint_default to read and write to sysfs_livedisplay_tuneable
+allow hal_fingerprint_default sysfs_livedisplay_tuneable:file rw_file_perms;
