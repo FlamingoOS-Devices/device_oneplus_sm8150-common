@@ -238,7 +238,9 @@ PRODUCT_VENDOR_PROPERTIES += \
 
 # Dolby
 PRODUCT_VENDOR_PROPERTIES += \
-    ro.vendor.dolby.dax.version=DAX3_3.6.0.12_r1
+    ro.vendor.dolby.dax.version=DAX3_3.6.0.12_r1 \
+    vendor.audio.dolby.ds2.enabled=false \
+    vendor.audio.dolby.ds2.hardbypass=false
 
 # DRM
 PRODUCT_PACKAGES += \
