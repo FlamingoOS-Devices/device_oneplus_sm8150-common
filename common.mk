@@ -342,11 +342,15 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     als_correction_service.oneplus_msmnile \
     android.hardware.sensors@2.0-service.oneplus_msmnile \
-    libsensorndkbridge
+    libsensorndkbridge \
+    sensors.oneplus
 
 PRODUCT_SYSTEM_EXT_PROPERTIES += \
     persist.vendor.naruto.light.support=true \
     persist.vendor.sensors.enable.mag_filter=true
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
