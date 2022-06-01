@@ -1,0 +1,19 @@
+[
+  {
+    "repository"  : "kernel_oneplus_sm8150",
+    "target_path" : "kernel/msm-4.14"
+  },
+  {
+    "repository"  : "device_oneplus_common",
+    "target_path" : "device/oneplus/common"
+  },
+  {
+    "repository"  : "vendor_oneplus_sm8150-common",
+    "target_path" : "vendor/oneplus/sm8150-common"
+  },
+  {
+    "repository"  : "zlatanr/dora-clang-1",
+    "target_path" : "prebuilts/clang-standalone",
+    "remote"	  : "gitlab"
+  }
+]
