@@ -17,5 +17,23 @@
     "remote"	  : "gitlab",
     "branch"      : "master",
     "clone-depth" : "1"
+  },
+  {
+    "repository"  : "android_hardware_qcom_display",
+    "target_path" : "hardware/qcom/display",
+    "remote"      : "aospa",
+    "branch"      : "sapphire-855"
+  },
+  {
+    "repository"  : "android_hardware_qcom_media",
+    "target_path" : "hardware/qcom/media",
+    "remote"      : "aospa",
+    "branch"      : "sapphire-855"
+  },
+  {
+    "repository"  : "android_hardware_qcom_audio",
+    "target_path" : "vendor/qcom/opensource/audio-hal/primary-hal",
+    "remote"      : "aospa",
+    "branch"      : "sapphire-855"
   }
 ]
