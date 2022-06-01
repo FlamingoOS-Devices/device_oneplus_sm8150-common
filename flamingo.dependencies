@@ -14,6 +14,8 @@
   {
     "repository"  : "zlatanr/dora-clang-1",
     "target_path" : "prebuilts/clang-standalone",
-    "remote"	  : "gitlab"
+    "remote"	  : "gitlab",
+    "branch"      : "master",
+    "clone-depth" : "1"
   }
 ]
