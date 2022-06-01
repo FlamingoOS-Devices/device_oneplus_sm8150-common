@@ -1,0 +1,20 @@
+android_app {
+    name: "OnePlusCameraHelper",
+
+    srcs: ["src/**/*.kt"],
+
+    certificate: "platform",
+    platform_apis: true,
+    privileged: true,
+
+    resource_dirs: ["res"],
+    system_ext_specific: true,
+
+    static_libs: [
+        "androidx.annotation_annotation",
+        "androidx.lifecycle_lifecycle-runtime-ktx",
+        "androidx.lifecycle_lifecycle-service",
+	    "kotlinx_coroutines_android",
+	    "vendor_support",
+    ],
+}
