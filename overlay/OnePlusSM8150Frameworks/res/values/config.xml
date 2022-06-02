@@ -162,9 +162,11 @@
 
     <bool name="config_enableHapticTextHandle">true</bool>
 
-    <!-- Allow the gesture power + volume up to change the ringer mode while the device
-         is interactive. -->
-    <bool name="config_volumeHushGestureEnabled">false</bool>
+    <integer name="config_defaultHapticFeedbackIntensity">3</integer>
+
+    <integer name="config_defaultNotificationVibrationIntensity">3</integer>
+
+    <integer name="config_defaultRingVibrationIntensity">3</integer>
 
     <!-- Max number of scan filters supported by blutooth controller. 0 if the
          device does not support hardware scan filters-->
