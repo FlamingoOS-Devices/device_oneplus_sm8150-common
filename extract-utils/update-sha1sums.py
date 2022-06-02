@@ -25,7 +25,7 @@ vendor = 'oneplus'
 
 with open('proprietary-files.txt', 'r') as f:
     lines = f.read().splitlines()
-vendorPath = '../../../vendor/' + vendor + '/' + device + '/proprietary'
+vendorPath = '../../../../vendor/' + vendor + '/' + device + '/proprietary'
 needSHA1 = False
 
 
