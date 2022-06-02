@@ -13,7 +13,7 @@
 // limitations under the License.
 
 runtime_resource_overlay {
-    name: "AOSPAOnePlusSM8150SystemUI",
+    name: "FlamingoOnePlusSM8150SystemUI",
     sdk_version: "current",
     system_ext_specific: true,
 }

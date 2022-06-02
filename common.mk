@@ -12,8 +12,8 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
 # Overlays
 PRODUCT_PACKAGES += \
-    AOSPAOnePlusSM8150Frameworks \
-    AOSPAOnePlusSM8150SystemUI \
+    FlamingoOnePlusSM8150Frameworks \
+    FlamingoOnePlusSM8150SystemUI \
     OnePlusSM8150Frameworks \
     OnePlusSM8150Settings \
     OnePlusSM8150SystemUI
