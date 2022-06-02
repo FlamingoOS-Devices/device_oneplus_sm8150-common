@@ -326,6 +326,10 @@ PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
     device/oneplus/common
 
+# Touch
+PRODUCT_PACKAGES += \
+    vendor.lineage.touch@1.0-service.oneplus
+
 # tri-state key
 PRODUCT_PACKAGES += \
     tri-state-key_daemon \
