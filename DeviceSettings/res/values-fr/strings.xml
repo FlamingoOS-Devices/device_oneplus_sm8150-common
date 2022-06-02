@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2022 FlamingoOS Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources>
+
+    <!-- App Title -->
+    <string name="device_settings_title">Paramètres OnePlus</string>
+    <string name="device_settings_summary">Curseur d\'alerte, gestes</string>
+
+    <!-- Gestures -->
+    <string name="touchscreen_gesture_settings_title">Gestes de l\'écran tactile</string>
+    <string name="touchscreen_gesture_settings_summary">Effectuez divers gestes sur l\'écran tactile pour exécuter des actions rapides</string>
+
+    <!-- Vibration-->
+    <string name="vib_strength_summary_head">Définir la force du vibreur</string>
+    <string name="vibration_warning">Un réglage trop élevé de la force du vibreur peut causer des dommages matériels permanents</string>
+
+    <!-- AlertSlider -->
+    <string name="alert_slider">Curseur d\'alerte</string>
+
+    <!-- Pop-up camera-->
+    <string name="camera_title">Appareil photo</string>
+    <string name="always_on_camera_dialog_title">Boîte de dialogue d\'ouverture de la caméra frontale</string>
+    <string name="always_on_camera_dialog_summary_on">Demandez toujours avant d\'ouvrir</string>
+    <string name="always_on_camera_dialog_summary_off">Ne demander que lorsque l\'écran est éteint</string>
+
+</resources>
