@@ -60,8 +60,8 @@ class DeviceSettingsFragment : PreferenceFragmentCompat() {
     companion object {
         private const val KEY_VIBRATOR_CATEGORY = "vibrator"
         private const val PROP_FLAMINGO_DEVICE = "ro.flamingo.build.device"
-        private const val GUACAMOLEB = "guacamoleb"
-        private const val HOTDOGB = "hotdogb"
+        private const val GUACAMOLEB = "oneplus7"
+        private const val HOTDOGB = "oneplus7t"
 
         private const val KEY_VIBRATOR_PREFERENCE = "device_setting_vib_strength"
         private const val FILE_LEVEL = "/sys/devices/platform/soc/89c000.i2c/i2c-2/2-005a/leds/vibrator/level"
