@@ -39,3 +39,6 @@ get_prop(hal_fingerprint_default, vendor_adsprpc_prop)
 r_dir_file(hal_fingerprint_default, vendor_sysfs_battery_supply)
 
 add_hwservice(hal_fingerprint_default, hal_oneplus_fingerprint_hwservice)
+
+# Allow hal_fingerprint_default to read sensor_version sysfs node
+allow hal_fingerprint_default sysfs_fpc:file r_file_perms;
