@@ -12,10 +12,9 @@
     "target_path" : "vendor/oneplus/sm8150-common"
   },
   {
-    "repository"  : "zlatanr/dora-clang-1",
+    "repository"  : "dora_clang",
     "target_path" : "prebuilts/clang-standalone",
-    "remote"	  : "gitlab",
-    "branch"      : "master",
+    "remote"	  : "flamingo-gitlab",
     "clone-depth" : "1"
   },
   {
