@@ -24,10 +24,10 @@
     "branch"      : "sapphire-855"
   },
   {
-    "repository"  : "android_hardware_qcom_media",
+    "repository"  : "hardware_qcom_media",
     "target_path" : "hardware/qcom/media",
-    "remote"      : "aospa",
-    "branch"      : "sapphire-855"
+    "remote"      : "flamingo",
+    "branch"      : "A12.1-855"
   },
   {
     "repository"  : "android_hardware_qcom_audio",
