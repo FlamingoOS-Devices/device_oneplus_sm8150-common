@@ -60,6 +60,9 @@ AB_OTA_PARTITIONS += \
     vbmeta_system
 endif
 
+# Camera
+TARGET_CAMERA_NEEDS_CLIENT_INFO_LIB := true
+
 # FOD
 TARGET_USES_FOD_ZPOS := true
 TARGET_SURFACEFLINGER_UDFPS_LIB := //device/oneplus/common:libudfps_extension.oneplus

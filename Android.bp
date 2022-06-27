@@ -1,4 +1,5 @@
 soong_namespace {
+    imports: ["device/oneplus/common"],
 }
 
 prebuilt_hidl_interfaces {
