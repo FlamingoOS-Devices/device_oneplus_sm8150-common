@@ -143,11 +143,22 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.camera.device@1.0.vendor:64
 
 PRODUCT_VENDOR_PROPERTIES += \
+    vendor.product.manufacturer=OPD \
     ro.vendor.camera.res.fmq.size=1048576
 
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.com.google.lens.oem_camera_package=com.oneplus.camera
+
+PRODUCT_SYSTEM_PROPERTIES += \
+    persist.camera.assert.panic=true \
+    persist.camera.privapp.list=com.oneplus.factorymode,com.oneplus.camera,com.oem.autotest,com.oneplus.healthcheck \
+    ro.opcamera.support=true \
+    ro.vendor.product.manufacturer.db=OP_PHONE \
+    ro.vendor.product.device.db=OP_DEVICE
+
 PRODUCT_SYSTEM_EXT_PROPERTIES += \
-    persist.vendor.camera.privapp.list=com.oneplus.camera \
-    vendor.camera.aux.packagelist=org.codeaurora.snapcam,com.oneplus.camera
+    persist.vendor.camera.privapp.list=com.oneplus.factorymode,com.oneplus.camera,com.oem.autotest,com.oneplus.healthcheck \
+    vendor.camera.aux.packagelist=org.codeaurora.snapcam,com.oneplus.factorymode,com.oneplus.camera
 
 # Charger
 PRODUCT_SYSTEM_EXT_PROPERTIES += \
@@ -157,6 +168,7 @@ PRODUCT_SYSTEM_EXT_PROPERTIES += \
 PRODUCT_PACKAGES += \
     init.class_main.sh \
     init.oem.rc \
+    init.opcamera.rc \
     init.oneplus.usb.rc \
     init.qcom.class_core.sh \
     init.qcom.early_boot.sh \
@@ -266,6 +278,11 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_VENDOR_PROPERTIES += \
     ro.camera.notify_nfc=1
+
+# OnePlus Apps
+PRODUCT_PACKAGES += \
+    OnePlusCameraOverlay \
+    OnePlusGalleryOverlay
 
 # Platform
 TARGET_BOARD_PLATFORM := msmnile

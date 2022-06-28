@@ -20,6 +20,7 @@ package com.flamingo.settings.device
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.UserHandle
 import android.provider.Settings
 
 import androidx.annotation.Keep
@@ -44,6 +45,14 @@ class BootCompletedReceiver : BroadcastReceiver() {
                     context.contentResolver, getResName(gesture.name), 0)
                 hardwareManager.setTouchscreenGestureEnabled(gesture, actionForGesture > 0)
             }
+        } else if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
+            context.startServiceAsUser(
+                Intent(
+                    context,
+                    ClientPackageObserverService::class.java
+                ),
+                UserHandle.SYSTEM
+            )
         }
     }
 
