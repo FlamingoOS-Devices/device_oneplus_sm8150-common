@@ -282,7 +282,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_VENDOR_PROPERTIES += \
     ro.camera.notify_nfc=1
 
-# OnePlus Apps
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_PRODUCT)/etc/libnfc-nci.conf \
+    $(LOCAL_PATH)/configs/nfc/libnfc-nxp.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nxp.conf 
+
+# Oneplus
 PRODUCT_PACKAGES += \
     OnePlusCameraOverlay \
     OnePlusGalleryOverlay
