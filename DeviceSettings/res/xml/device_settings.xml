@@ -16,6 +16,19 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory
+        android:key="audio"
+        android:title="@string/audio_title">
+        <Preference
+            android:key="audio_dolby_atmos"
+            android:title="@string/dolby_title"
+            android:icon="@drawable/ic_dolby_atmos">
+            <intent
+                 android:targetPackage="com.oneplus.sound.tuner"
+                 android:targetClass="com.oneplus.sound.tuner.panoramic.DolbyPanoramicSoundActivity" />
+        </Preference>
+    </PreferenceCategory>
+
     <Preference
         android:key="alert_slider"
         android:title="@string/alert_slider"
@@ -52,18 +65,5 @@
         android:key="vibration_footer_preference"
         android:title="@string/vibration_warning"
         android:selectable="false" />
-
-    <PreferenceCategory
-        android:key="audio"
-        android:title="@string/audio_title">
-        <Preference
-            android:key="audio_dolby_atmos"
-            android:title="@string/dolby_title"
-            android:icon="@drawable/ic_dolby_atmos">
-            <intent
-                 android:targetPackage="com.oneplus.sound.tuner"
-                 android:targetClass="com.oneplus.sound.tuner.panoramic.DolbyPanoramicSoundActivity" />
-        </Preference>
-    </PreferenceCategory>
     
 </PreferenceScreen>
