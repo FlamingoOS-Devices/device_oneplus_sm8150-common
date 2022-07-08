@@ -666,13 +666,15 @@ vendor/bin/pd-mapper|60bb4f1c363c848c0e0675fbd0364837c379a0d8
 vendor/lib64/libpdmapper.so|931f9aa3a5eb0bb38b257ef043a02609411fbbaa
 vendor/lib64/libpdnotifier.so|9e4782b3427f72cec29ac240cac7ee8e50300471
 
-# Power-off alarm - from LA.UM.9.1.r1-09600-SMxxx0.0
--product/app/PowerOffAlarm/PowerOffAlarm.apk|bc906abd03e4a243201dde626b6580fd8a4f73ce
-vendor/bin/hw/vendor.qti.hardware.alarm@1.0-service|8837c93af35835116be98451040cf7843947198c
-vendor/bin/power_off_alarm|73f5fc2ee9436512a02e80890608722cd7643ab3
+# Power-off alarm - from LA.UM.9.14.r1-19300.01-LAHAINA.QSSI12.0
+-product/app/PowerOffAlarm/PowerOffAlarm.apk|6e3ba805cfbeb0db590f988891448345cc3698ba
+
+# Power-off alarm (vendor) - from LA.UM.9.1.r1-11500.02-SMxxx0.QSSI12.0
+vendor/bin/hw/vendor.qti.hardware.alarm@1.0-service|23ab1405821bb30553f20ad5e785959008440f7f
+vendor/bin/power_off_alarm|dcab61bc1312941b506cb22b1236edee72080318
 vendor/etc/init/vendor.qti.hardware.alarm@1.0-service.rc|a03a9a1c818595b19272ea6ffb466e23a7fc3b05
-vendor/lib64/hw/vendor.qti.hardware.alarm@1.0-impl.so|d00a0d1670efd97273bc019281cdb24b97611e6d
-vendor/lib64/vendor.qti.hardware.alarm@1.0.so|101eacc45dd5cf36c2b76f9e0aea52fb6424ddcc
+vendor/lib64/hw/vendor.qti.hardware.alarm@1.0-impl.so|02a314f7dc19b06dfd9a45b0c0bcd0aca6e822bb
+vendor/lib64/vendor.qti.hardware.alarm@1.0.so|7c89039a1d670ff6f92ada82bd1ff2c2366dd145
 
 # Public Libraries - from LA.UM.9.1.r1-11500.02-SMxxx0.QSSI12.0
 vendor/etc/public.libraries.txt|3e96f117599019be1aa99b965961005a66170250
