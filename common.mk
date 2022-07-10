@@ -81,9 +81,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.audio.monitorRotation=true \
     ro.config.vc_call_vol_steps=6 \
     vendor.audio.cts.media=false \
-    vendor.audio.hal.output.suspend.supported=false \
-    vendor.audio.noisy.broadcast.delay=600 \
-    vendor.audio.offload.pstimeout.secs=3
+    vendor.audio.hal.output.suspend.supported=false
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/audio/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.xml \
