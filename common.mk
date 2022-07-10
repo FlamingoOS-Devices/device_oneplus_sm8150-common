@@ -67,8 +67,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.audio.monitorRotation=true \
     ro.config.vc_call_vol_steps=6 \
     vendor.audio.cts.media=false \
-    vendor.audio.noisy.broadcast.delay=600 \
-    vendor.audio.offload.pstimeout.secs=3
 
 PRODUCT_ODM_PROPERTIES += \
     ro.vendor.audio.sdk.fluencetype=fluence \
