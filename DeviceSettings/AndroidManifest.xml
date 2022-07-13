@@ -30,13 +30,14 @@
 
     <uses-sdk
         android:minSdkVersion="30"
-        android:targetSdkVersion="31" />
+        android:targetSdkVersion="32" />
 
     <application
         android:title="@string/device_settings_title"
         android:theme="@style/Theme.SubSettingsBase"
         android:supportsRtl="true"
-        android:directBootAware="true">
+        android:directBootAware="true"
+        android:defaultToDeviceProtectedStorage="true">
 
         <!-- Device Settings -->
         <activity
