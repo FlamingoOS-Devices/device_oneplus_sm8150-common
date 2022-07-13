@@ -26,10 +26,14 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 
+import androidx.annotation.Keep;
+
 import com.android.internal.os.DeviceKeyHandler;
 
+@Keep
 public class KeyHandler implements DeviceKeyHandler {
     private static final String TAG = KeyHandler.class.getSimpleName();
+    private static final String PKG_NAME = "org.lineageos.camerahelper";
 
     // Camera motor event key codes
     private static final int MOTOR_EVENT_MANUAL_TO_DOWN = 184;
@@ -74,7 +78,7 @@ public class KeyHandler implements DeviceKeyHandler {
 
     private Context getPackageContext() {
         try {
-            return mContext.createPackageContext("org.lineageos.camerahelper", 0);
+            return mContext.createPackageContext(PKG_NAME, Context.CONTEXT_DEVICE_PROTECTED_STORAGE);
         } catch (NameNotFoundException | SecurityException e) {
             Log.e(TAG, "Failed to create package context", e);
         }

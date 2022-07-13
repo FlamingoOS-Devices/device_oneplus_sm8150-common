@@ -24,9 +24,12 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class FallSensorService extends Service {
     private static final String TAG = "FallSensorService";
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
 
     private FallSensor mFallSensor;
 

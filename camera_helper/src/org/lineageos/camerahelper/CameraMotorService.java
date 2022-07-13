@@ -32,9 +32,12 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class CameraMotorService extends Service implements Handler.Callback {
-    private static final boolean DEBUG = true;
     private static final String TAG = "CameraMotorService";
+    private static final boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
 
     // Should follow KEY_SETTINGS_PREFIX + KEY_ALWAYS_CAMERA_DIALOG From DeviceSettings
     private static final String ALWAYS_ON_DIALOG_KEY = "device_setting_always_on_camera_dialog";

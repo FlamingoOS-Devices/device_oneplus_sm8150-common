@@ -33,8 +33,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class FallSensor implements SensorEventListener {
-    private static final boolean DEBUG = true;
     private static final String TAG = "FallSensor";
+    private static final boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
 
     private ExecutorService mExecutorService;
     private SensorManager mSensorManager;
