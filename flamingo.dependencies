@@ -24,9 +24,9 @@
     "clone-depth" : "1"
   },
   {
-    "repository"  : "android_hardware_qcom_display",
+    "repository"  : "AOSPA/android_hardware_qcom_display",
     "target_path" : "hardware/qcom/display",
-    "remote"      : "aospa",
+    "remote"      : "github",
     "branch"      : "sapphire-855"
   },
   {
@@ -36,9 +36,9 @@
     "branch"      : "A12.1-855"
   },
   {
-    "repository"  : "android_hardware_qcom_audio",
+    "repository"  : "AOSPA/android_hardware_qcom_audio",
     "target_path" : "vendor/qcom/opensource/audio-hal/primary-hal",
-    "remote"      : "aospa",
+    "remote"      : "github",
     "branch"      : "sapphire-855"
   }
 ]
