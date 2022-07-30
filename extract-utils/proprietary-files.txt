@@ -1,4 +1,4 @@
-# All unpinned blobs below are extracted from OnePlus7TOxygen_14.I.27_OTA_0270_all_2105200102
+# All unpinned blobs below are extracted from qssi-user-11-RKQ1.201022.002-2206171030-release-keys
 
 # ADSP
 vendor/bin/adsprpcd
