@@ -34,32 +34,41 @@ import com.flamingo.settings.device.getResName
 @Keep
 class BootCompletedReceiver : BroadcastReceiver() {
 
-    override fun onReceive(context: Context?, intent: Intent?) {
-        if (context == null || intent == null) return
-        if (intent.action == Intent.ACTION_LOCKED_BOOT_COMPLETED) {
-            restoreVibrationStrengthPreference(context)
-            val hardwareManager = LineageHardwareManager.getInstance(context)
-            if (!hardwareManager.isSupported(FEATURE_TOUCHSCREEN_GESTURES)) return
-            hardwareManager.touchscreenGestures.forEach { gesture: TouchscreenGesture ->
-                val actionForGesture = Settings.System.getInt(
-                    context.contentResolver, getResName(gesture.name), 0)
-                hardwareManager.setTouchscreenGestureEnabled(gesture, actionForGesture > 0)
+    override fun onReceive(context: Context, intent: Intent?) {
+        when (intent?.action) {
+            Intent.ACTION_LOCKED_BOOT_COMPLETED -> {
+                restoreVibrationStrengthPreference(context)
+                val hardwareManager = LineageHardwareManager.getInstance(context)
+                if (!hardwareManager.isSupported(FEATURE_TOUCHSCREEN_GESTURES)) return
+                hardwareManager.touchscreenGestures.forEach { gesture: TouchscreenGesture ->
+                    val actionForGesture = Settings.System.getIntForUser(
+                        context.contentResolver,
+                        getResName(gesture.name),
+                        0,
+                        UserHandle.USER_CURRENT
+                    )
+                    hardwareManager.setTouchscreenGestureEnabled(gesture, actionForGesture > 0)
+                }
             }
-        } else if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
-            context.startServiceAsUser(
-                Intent(
-                    context,
-                    ClientPackageObserverService::class.java
-                ),
-                UserHandle.SYSTEM
-            )
+            Intent.ACTION_BOOT_COMPLETED -> {
+                context.startServiceAsUser(
+                    Intent(
+                        context,
+                        ClientPackageObserverService::class.java
+                    ),
+                    UserHandle.SYSTEM
+                )
+            }
         }
     }
 
     private fun restoreVibrationStrengthPreference(context: Context) {
         if (!FileUtils.isFileWritable(FILE_LEVEL)) return
-        val storedValue = Settings.System.getString(context.contentResolver,
-            KEY_VIBSTRENGTH) ?: DEFAULT
+        val storedValue = Settings.System.getStringForUser(
+            context.contentResolver,
+            KEY_VIBSTRENGTH,
+            UserHandle.USER_CURRENT
+        ) ?: DEFAULT
         FileUtils.writeLine(FILE_LEVEL, storedValue)
     }
 

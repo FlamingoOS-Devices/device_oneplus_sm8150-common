@@ -22,6 +22,7 @@
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <protected-broadcast android:name="android.intent.action.SLIDER_POSITION_CHANGED" />
@@ -47,7 +48,8 @@
             <intent-filter>
                 <action android:name="com.android.settings.action.EXTRA_SETTINGS" />
             </intent-filter>
-            <meta-data android:name="com.android.settings.order" android:value="1000" />
+            <meta-data android:name="com.android.settings.order"
+                android:value="1000" />
             <meta-data android:name="com.android.settings.category"
                 android:value="com.android.settings.category.ia.flamingo" />
             <meta-data android:name="com.android.settings.title"
@@ -56,6 +58,10 @@
                 android:resource="@string/device_settings_summary" />
             <meta-data android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_device_settings" />
+            <meta-data android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_device_settings" />
+            <meta-data android:name="com.android.settings.profile"
+                android:value="primary_profile_only" />
         </activity>
 
         <activity

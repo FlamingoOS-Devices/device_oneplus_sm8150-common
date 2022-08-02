@@ -32,13 +32,13 @@ import android.media.AudioSystem
 import android.media.session.MediaSessionLegacyHelper
 import android.net.Uri
 import android.os.Handler
-import android.os.Message
 import android.os.Looper
+import android.os.Message
 import android.os.PowerManager
 import android.os.SystemClock
 import android.os.UserHandle
-import android.os.Vibrator
 import android.os.VibrationEffect
+import android.os.Vibrator
 import android.provider.Settings
 import android.provider.Settings.Global.ZEN_MODE_IMPORTANT_INTERRUPTIONS
 import android.provider.Settings.Global.ZEN_MODE_NO_INTERRUPTIONS
@@ -85,7 +85,7 @@ class KeyHandler(private val context: Context) : DeviceKeyHandler {
 
     private var wasMuted = false
     private val broadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
+        override fun onReceive(context: Context, intent: Intent?) {
             val stream = intent?.getIntExtra(AudioManager.EXTRA_VOLUME_STREAM_TYPE, -1)
             val state = intent?.getBooleanExtra(AudioManager.EXTRA_STREAM_VOLUME_MUTED, false)
             if (stream == AudioSystem.STREAM_MUSIC && state == false) {
@@ -93,6 +93,11 @@ class KeyHandler(private val context: Context) : DeviceKeyHandler {
             }
         }
     }
+
+    private val gestureWakeLock = powerManager.newWakeLock(
+        PowerManager.PARTIAL_WAKE_LOCK,
+        GESTURE_WAKELOCK_TAG
+    )
 
     init {
         val manager = LineageHardwareManager.getInstance(context)
@@ -110,14 +115,10 @@ class KeyHandler(private val context: Context) : DeviceKeyHandler {
     override fun handleKeyEvent(event: KeyEvent): KeyEvent? {
         // Handle AlertSlider KeyEvent
         if (event.action == KeyEvent.ACTION_DOWN) {
-            val mode: String
-            when (event.scanCode) {
-                POSITION_BOTTOM ->
-                    mode = performSliderAction(ALERTSLIDER_MODE_POSITION_BOTTOM, MODE_NORMAL)
-                POSITION_MIDDLE ->
-                    mode = performSliderAction(ALERTSLIDER_MODE_POSITION_MIDDLE, MODE_VIBRATE)
-                POSITION_TOP ->
-                    mode = performSliderAction(ALERTSLIDER_MODE_POSITION_TOP, MODE_SILENT)
+            val mode: String = when (event.scanCode) {
+                POSITION_BOTTOM -> performSliderAction(ALERTSLIDER_MODE_POSITION_BOTTOM, MODE_NORMAL)
+                POSITION_MIDDLE -> performSliderAction(ALERTSLIDER_MODE_POSITION_MIDDLE, MODE_VIBRATE)
+                POSITION_TOP -> performSliderAction(ALERTSLIDER_MODE_POSITION_TOP, MODE_SILENT)
                 else -> return event
             }
             sendSliderBroadcast(event.scanCode, mode)
@@ -136,7 +137,12 @@ class KeyHandler(private val context: Context) : DeviceKeyHandler {
             return null
         }
         // Handle gestures
-        val action = Settings.System.getInt(context.contentResolver, key, 0)
+        val action = Settings.System.getIntForUser(
+            context.contentResolver,
+            key,
+            0,
+            UserHandle.USER_CURRENT
+        )
         if (action > 0) {
             handler.sendMessage(handler.obtainMessage(GESTURE_REQUEST, action, 0))
         }
@@ -144,9 +150,17 @@ class KeyHandler(private val context: Context) : DeviceKeyHandler {
     }
 
     private fun performSliderAction(key: String, defMode: String): String {
-        val mode = Settings.System.getString(context.contentResolver, key) ?: defMode
-        val muteMedia = Settings.System.getInt(context.contentResolver, 
-            MUTE_MEDIA_WITH_SILENT, 0) == 1
+        val mode = Settings.System.getStringForUser(
+            context.contentResolver,
+            key,
+            UserHandle.USER_CURRENT
+        ) ?: defMode
+        val muteMedia = Settings.System.getIntForUser(
+            context.contentResolver,
+            MUTE_MEDIA_WITH_SILENT,
+            0,
+            UserHandle.USER_CURRENT
+        ) == 1
         when (mode) {
             MODE_NORMAL -> {
                 audioManager.ringerModeInternal = AudioManager.RINGER_MODE_NORMAL
@@ -245,8 +259,12 @@ class KeyHandler(private val context: Context) : DeviceKeyHandler {
     }
 
     private fun launchDozePulse() {
-        val dozeEnabled = Settings.Secure.getInt(context.contentResolver,
-                Settings.Secure.DOZE_ENABLED, 1) == 1
+        val dozeEnabled = Settings.Secure.getIntForUser(
+            context.contentResolver,
+            Settings.Secure.DOZE_ENABLED,
+            1,
+            UserHandle.USER_CURRENT
+        ) == 1
         if (dozeEnabled) {
             context.sendBroadcastAsUser(Intent(PULSE_ACTION), UserHandle.CURRENT)
         }
@@ -282,8 +300,12 @@ class KeyHandler(private val context: Context) : DeviceKeyHandler {
     }
 
     private fun performHapticFeedback() {
-        val hapticFeedbackEnabled = Settings.System.getInt(context.contentResolver,
-            TOUCHSCREEN_GESTURE_HAPTIC_FEEDBACK, 1) == 1
+        val hapticFeedbackEnabled = Settings.System.getIntForUser(
+            context.contentResolver,
+            TOUCHSCREEN_GESTURE_HAPTIC_FEEDBACK,
+            1,
+            UserHandle.USER_CURRENT
+        ) == 1
         if (hapticFeedbackEnabled && audioManager.ringerMode != AudioManager.RINGER_MODE_SILENT) {
             performHapticFeedback(HEAVY_CLICK_EFFECT)
         }
@@ -315,23 +337,32 @@ class KeyHandler(private val context: Context) : DeviceKeyHandler {
 
         override fun handleMessage(msg: Message) {
             if (msg.what != GESTURE_REQUEST) return
-            when (msg.arg1) {
-                ACTION_CAMERA -> launchCamera()
-                ACTION_FLASHLIGHT -> toggleFlashlight()
-                ACTION_BROWSER -> launchBrowser()
-                ACTION_DIALER -> launchDialer()
-                ACTION_EMAIL -> launchEmail()
-                ACTION_MESSAGES -> launchMessages()
-                ACTION_PLAY_PAUSE_MUSIC -> playPauseMusic()
-                ACTION_PREVIOUS_TRACK -> previousTrack()
-                ACTION_NEXT_TRACK -> nextTrack()
-                ACTION_VOLUME_DOWN -> volumeDown()
-                ACTION_VOLUME_UP -> volumeUp()
-                ACTION_WAKEUP -> wakeUp()
-                ACTION_AMBIENT_DISPLAY -> launchDozePulse()
-            }
-            if (msg.arg1 !=  ACTION_AMBIENT_DISPLAY) {
-                performHapticFeedback()
+            try {
+                if (!gestureWakeLock.isHeld) {
+                    gestureWakeLock.acquire(10 * 1000)
+                }
+                when (msg.arg1) {
+                    ACTION_CAMERA -> launchCamera()
+                    ACTION_FLASHLIGHT -> toggleFlashlight()
+                    ACTION_BROWSER -> launchBrowser()
+                    ACTION_DIALER -> launchDialer()
+                    ACTION_EMAIL -> launchEmail()
+                    ACTION_MESSAGES -> launchMessages()
+                    ACTION_PLAY_PAUSE_MUSIC -> playPauseMusic()
+                    ACTION_PREVIOUS_TRACK -> previousTrack()
+                    ACTION_NEXT_TRACK -> nextTrack()
+                    ACTION_VOLUME_DOWN -> volumeDown()
+                    ACTION_VOLUME_UP -> volumeUp()
+                    ACTION_WAKEUP -> wakeUp()
+                    ACTION_AMBIENT_DISPLAY -> launchDozePulse()
+                }
+                if (msg.arg1 !=  ACTION_AMBIENT_DISPLAY) {
+                    performHapticFeedback()
+                }
+            } finally {
+                if (gestureWakeLock.isHeld) {
+                    gestureWakeLock.release()
+                }
             }
         }
     }
@@ -341,6 +372,7 @@ class KeyHandler(private val context: Context) : DeviceKeyHandler {
         private const val PULSE_ACTION = "com.android.systemui.doze.pulse"
         private const val GESTURE_WAKEUP_REASON = "touchscreen-gesture-wakeup"
         private const val GESTURE_REQUEST = 1
+        private const val GESTURE_WAKELOCK_TAG = "$TAG:GestureWakeLock"
 
         // AlertSlider KeyEvent scanCodes
         private const val POSITION_BOTTOM = 601
@@ -370,6 +402,7 @@ class KeyHandler(private val context: Context) : DeviceKeyHandler {
         private const val ACTION_VOLUME_UP = 11
         private const val ACTION_WAKEUP = 12
         private const val ACTION_AMBIENT_DISPLAY = 13
+
         private const val MUTE_MEDIA_WITH_SILENT = "config_mute_media"
     }
 }
