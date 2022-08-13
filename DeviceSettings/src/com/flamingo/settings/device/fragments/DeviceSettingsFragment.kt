@@ -41,7 +41,7 @@ class DeviceSettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.device_settings, key)
 
         val device: String = SystemProperties.get(PROP_FLAMINGO_DEVICE, null)
-        if (device == GUACAMOLEB) {
+        if (!FileUtils.fileExists(FILE_LEVEL)) {
             preferenceScreen.removePreferenceRecursively(KEY_VIBRATOR_CATEGORY)
         }
         if (device == GUACAMOLEB || device == HOTDOGB) {
