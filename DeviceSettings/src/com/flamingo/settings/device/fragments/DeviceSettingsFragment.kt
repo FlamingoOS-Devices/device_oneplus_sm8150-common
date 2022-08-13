@@ -18,13 +18,13 @@ package com.flamingo.settings.device.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.os.SystemProperties
 import android.os.VibrationEffect
 import android.os.Vibrator
 
 import androidx.preference.PreferenceFragmentCompat
 
 import com.android.internal.util.flamingo.FileUtils
+import com.android.internal.util.flamingo.FlamingoUtils
 import com.flamingo.settings.device.R
 import com.flamingo.support.preference.CustomSeekBarPreference
 
@@ -40,11 +40,10 @@ class DeviceSettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(bundle: Bundle?, key: String?) {
         setPreferencesFromResource(R.xml.device_settings, key)
 
-        val device: String = SystemProperties.get(PROP_FLAMINGO_DEVICE, null)
         if (!FileUtils.fileExists(FILE_LEVEL)) {
             preferenceScreen.removePreferenceRecursively(KEY_VIBRATOR_CATEGORY)
         }
-        if (device == GUACAMOLEB || device == HOTDOGB) {
+        if (!FlamingoUtils.isPackageInstalled(requireContext(), POPUP_HELPER_PKG_NAME)) {
             preferenceScreen.removePreferenceRecursively(KEY_CAMERA_CATEGORY)
         }
 
@@ -59,15 +58,12 @@ class DeviceSettingsFragment : PreferenceFragmentCompat() {
 
     companion object {
         private const val KEY_VIBRATOR_CATEGORY = "vibrator"
-        private const val PROP_FLAMINGO_DEVICE = "ro.flamingo.build.device"
-        private const val GUACAMOLEB = "oneplus7"
-        private const val HOTDOGB = "oneplus7t"
-
         private const val KEY_VIBRATOR_PREFERENCE = "device_setting_vib_strength"
         private const val FILE_LEVEL = "/sys/devices/platform/soc/89c000.i2c/i2c-2/2-005a/leds/vibrator/level"
 
         private val HEAVY_CLICK_EFFECT = VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK)
-    
-        private const val KEY_CAMERA_CATEGORY = "camera";
+
+        private const val POPUP_HELPER_PKG_NAME = "org.lineageos.camerahelper"
+        private const val KEY_CAMERA_CATEGORY = "camera"
     }
 }
