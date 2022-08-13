@@ -20,7 +20,7 @@ import android.os.Bundle
 
 import androidx.fragment.app.commit
 
-import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
+import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity
 import com.android.settingslib.collapsingtoolbar.R
 import com.flamingo.settings.device.fragments.DeviceSettingsFragment
 

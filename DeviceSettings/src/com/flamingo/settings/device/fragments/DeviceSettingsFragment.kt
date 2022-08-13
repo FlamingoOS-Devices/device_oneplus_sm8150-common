@@ -21,12 +21,16 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceFragmentCompat
 
 import com.android.internal.util.flamingo.FileUtils
 import com.android.internal.util.flamingo.FlamingoUtils
 import com.flamingo.settings.device.R
 import com.flamingo.support.preference.CustomSeekBarPreference
+
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class DeviceSettingsFragment : PreferenceFragmentCompat() {
 
@@ -49,10 +53,15 @@ class DeviceSettingsFragment : PreferenceFragmentCompat() {
 
         findPreference<CustomSeekBarPreference>(KEY_VIBRATOR_PREFERENCE)
             ?.setOnPreferenceChangeListener { _, newValue ->
-                if (vibrator.hasVibrator()) {
-                    vibrator.vibrate(HEAVY_CLICK_EFFECT)
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                    runCatching {
+                        FileUtils.writeLine(FILE_LEVEL, (newValue as Int).toString())
+                    }
+                    if (vibrator.hasVibrator()) {
+                        vibrator.vibrate(HEAVY_CLICK_EFFECT)
+                    }
                 }
-                FileUtils.writeLine(FILE_LEVEL, (newValue as Int).toString())
+                return@setOnPreferenceChangeListener true
             }
     }
 
