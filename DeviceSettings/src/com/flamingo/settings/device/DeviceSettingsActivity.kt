@@ -22,7 +22,6 @@ import androidx.fragment.app.commit
 
 import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity
 import com.android.settingslib.collapsingtoolbar.R
-import com.flamingo.settings.device.fragments.DeviceSettingsFragment
 
 class DeviceSettingsActivity : CollapsingToolbarBaseActivity() {
 

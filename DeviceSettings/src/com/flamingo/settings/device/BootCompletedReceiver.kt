@@ -1,5 +1,4 @@
 /*
- * Copyright (C) 2013 The OmniROM Project
  * Copyright (C) 2022 FlamingoOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,11 +24,7 @@ import android.provider.Settings
 
 import androidx.annotation.Keep
 
-import com.android.internal.lineage.hardware.LineageHardwareManager
-import com.android.internal.lineage.hardware.LineageHardwareManager.FEATURE_TOUCHSCREEN_GESTURES
-import com.android.internal.lineage.hardware.TouchscreenGesture
 import com.android.internal.util.flamingo.FileUtils
-import com.flamingo.settings.device.getResName
 
 @Keep
 class BootCompletedReceiver : BroadcastReceiver() {
@@ -38,17 +33,6 @@ class BootCompletedReceiver : BroadcastReceiver() {
         when (intent?.action) {
             Intent.ACTION_LOCKED_BOOT_COMPLETED -> {
                 restoreVibrationStrengthPreference(context)
-                val hardwareManager = LineageHardwareManager.getInstance(context)
-                if (!hardwareManager.isSupported(FEATURE_TOUCHSCREEN_GESTURES)) return
-                hardwareManager.touchscreenGestures.forEach { gesture: TouchscreenGesture ->
-                    val actionForGesture = Settings.System.getIntForUser(
-                        context.contentResolver,
-                        getResName(gesture.name),
-                        0,
-                        UserHandle.USER_CURRENT
-                    )
-                    hardwareManager.setTouchscreenGestureEnabled(gesture, actionForGesture > 0)
-                }
             }
             Intent.ACTION_BOOT_COMPLETED -> {
                 context.startServiceAsUser(

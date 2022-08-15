@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.flamingo.settings.device.fragments
+package com.flamingo.settings.device
 
 import android.content.Context
 import android.os.Bundle
