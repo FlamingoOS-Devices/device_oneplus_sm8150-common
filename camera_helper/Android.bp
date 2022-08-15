@@ -1,7 +1,7 @@
 android_app {
     name: "OnePlusCameraHelper",
 
-    srcs: ["src/**/*.java"],
+    srcs: ["src/**/*.kt"],
 
     certificate: "platform",
     platform_apis: true,
@@ -10,5 +10,7 @@ android_app {
     resource_dirs: ["res"],
     static_libs: [
         "androidx.annotation_annotation",
+        "androidx.lifecycle_lifecycle-runtime-ktx",
+        "androidx.lifecycle_lifecycle-service",
     ],
 }
