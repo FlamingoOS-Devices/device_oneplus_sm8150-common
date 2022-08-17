@@ -6,3 +6,7 @@ allow alertslider_app self:netlink_kobject_uevent_socket { read bind setopt crea
 
 # Allow alertslider_app to find app_api_service
 allow alertslider_app app_api_service:service_manager find;
+
+# Allow reading extcon state
+allow alertslider_app sysfs_tri_state_key:dir r_dir_perms;
+allow alertslider_app sysfs_tri_state_key:file r_file_perms;

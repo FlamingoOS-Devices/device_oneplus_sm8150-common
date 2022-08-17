@@ -3,3 +3,6 @@
 
 # Data files
 /data/misc/aosp(/.*)?                 u:object_r:aosp_data_file:s0
+
+# AlertSlider
+/sys/devices/platform/soc/soc:tri_state_key/extcon(/.*)?    u:object_r:sysfs_tri_state_key:s0
