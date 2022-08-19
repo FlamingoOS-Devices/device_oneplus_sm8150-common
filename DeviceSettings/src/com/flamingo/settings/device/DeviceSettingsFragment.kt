@@ -26,7 +26,6 @@ import androidx.preference.PreferenceFragmentCompat
 
 import com.android.internal.util.flamingo.FileUtils
 import com.android.internal.util.flamingo.FlamingoUtils
-import com.flamingo.settings.device.R
 import com.flamingo.support.preference.CustomSeekBarPreference
 
 import kotlinx.coroutines.Dispatchers
@@ -45,34 +44,35 @@ class DeviceSettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.device_settings, key)
 
         if (!FileUtils.fileExists(FILE_LEVEL)) {
-            preferenceScreen.removePreferenceRecursively(KEY_VIBRATOR_CATEGORY)
+            preferenceScreen.removePreferenceRecursively(KEY_VIBRATOR_PREFERENCE)
+            preferenceScreen.removePreferenceRecursively(KEY_VIBRATOR_FOOTER)
+        } else {
+            findPreference<CustomSeekBarPreference>(KEY_VIBRATOR_PREFERENCE)
+                ?.setOnPreferenceChangeListener { _, newValue ->
+                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                        runCatching {
+                            FileUtils.writeLine(FILE_LEVEL, (newValue as Int).toString())
+                        }
+                        if (vibrator.hasVibrator()) {
+                            vibrator.vibrate(HEAVY_CLICK_EFFECT)
+                        }
+                    }
+                    return@setOnPreferenceChangeListener true
+                }
         }
         if (!FlamingoUtils.isPackageInstalled(requireContext(), POPUP_HELPER_PKG_NAME)) {
-            preferenceScreen.removePreferenceRecursively(KEY_CAMERA_CATEGORY)
+            preferenceScreen.removePreferenceRecursively(KEY_CAMERA_PREF)
         }
-
-        findPreference<CustomSeekBarPreference>(KEY_VIBRATOR_PREFERENCE)
-            ?.setOnPreferenceChangeListener { _, newValue ->
-                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                    runCatching {
-                        FileUtils.writeLine(FILE_LEVEL, (newValue as Int).toString())
-                    }
-                    if (vibrator.hasVibrator()) {
-                        vibrator.vibrate(HEAVY_CLICK_EFFECT)
-                    }
-                }
-                return@setOnPreferenceChangeListener true
-            }
     }
 
     companion object {
-        private const val KEY_VIBRATOR_CATEGORY = "vibrator"
         private const val KEY_VIBRATOR_PREFERENCE = "device_setting_vib_strength"
+        private const val KEY_VIBRATOR_FOOTER = "vibration_warning"
         private const val FILE_LEVEL = "/sys/devices/platform/soc/89c000.i2c/i2c-2/2-005a/leds/vibrator/level"
 
         private val HEAVY_CLICK_EFFECT = VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK)
 
         private const val POPUP_HELPER_PKG_NAME = "org.lineageos.camerahelper"
-        private const val KEY_CAMERA_CATEGORY = "camera"
+        private const val KEY_CAMERA_PREF = "device_setting_always_on_camera_dialog"
     }
 }
