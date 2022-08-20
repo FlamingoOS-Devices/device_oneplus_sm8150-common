@@ -119,8 +119,7 @@ class KeyHandler : LifecycleService() {
             .setCancelable(true)
             .create()
             .apply {
-                @Suppress("DEPRECATION")
-                window.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
+                window.setType(WindowManager.LayoutParams.TYPE_DISPLAY_OVERLAY)
                 show()
             }
     }
@@ -150,8 +149,7 @@ class KeyHandler : LifecycleService() {
             .setCancelable(true)
             .create()
             .apply {
-                @Suppress("DEPRECATION")
-                window.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
+                window.setType(WindowManager.LayoutParams.TYPE_DISPLAY_OVERLAY)
                 show()
             }
     }
@@ -173,8 +171,7 @@ class KeyHandler : LifecycleService() {
             .setCancelable(true)
             .create()
             .apply {
-                @Suppress("DEPRECATION")
-                window.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
+                window.setType(WindowManager.LayoutParams.TYPE_DISPLAY_OVERLAY)
                 show()
             }
     }

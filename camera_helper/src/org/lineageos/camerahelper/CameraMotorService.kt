@@ -29,6 +29,7 @@ import android.os.IBinder
 import android.os.Looper
 import android.os.Message
 import android.os.SystemClock
+import android.os.UserHandle
 import android.provider.Settings
 import android.util.Log
 import android.view.Display
@@ -122,7 +123,8 @@ class CameraMotorService : Service(), Handler.Callback {
         val alwaysOnDialog = Settings.System.getIntForUser(
             contentResolver,
             ALWAYS_ON_DIALOG_KEY,
-            0
+            0,
+            UserHandle.USER_CURRENT
         ) == 1
         if (screenOn && !alwaysOnDialog) {
             raiseCamera()
@@ -143,8 +145,7 @@ class CameraMotorService : Service(), Handler.Callback {
                     .setCancelable(true)
                     .create()
                     .apply {
-                        @Suppress("DEPRECATION")
-                        window.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
+                        window.setType(WindowManager.LayoutParams.TYPE_DISPLAY_OVERLAY)
                     }
             }
             alertDialog?.let { if (!it.isShowing) it.show() }
