@@ -67,7 +67,7 @@ class DeviceSettingsFragment : PreferenceFragmentCompat() {
 
     companion object {
         private const val KEY_VIBRATOR_PREFERENCE = "device_setting_vib_strength"
-        private const val KEY_VIBRATOR_FOOTER = "vibration_warning"
+        private const val KEY_VIBRATOR_FOOTER = "vibration_footer_preference"
         private const val FILE_LEVEL = "/sys/devices/platform/soc/89c000.i2c/i2c-2/2-005a/leds/vibrator/level"
 
         private val HEAVY_CLICK_EFFECT = VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK)

@@ -48,6 +48,7 @@
         app:min="0" />
 
     <com.android.settingslib.widget.FooterPreference
+        android:key="vibration_footer_preference"
         android:title="@string/vibration_warning"
         android:selectable="false" />
 
