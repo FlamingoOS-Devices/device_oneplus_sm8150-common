@@ -17,15 +17,12 @@
 
 package org.lineageos.camerahelper
 
-import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.util.Log
-import android.view.WindowManager
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,7 +37,7 @@ private const val FALL_SENSOR = "oneplus.sensor.free_fall"
 
 class FallSensor(private val context: Context) : SensorEventListener {
 
-    private val coroutineScope = CoroutineScope(Dispatchers.Default)
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
     private val sensorManager = context.getSystemService(SensorManager::class.java)
     private val sensor: Sensor? = sensorManager.getSensorList(Sensor.TYPE_ALL).find {
         it.stringType == FALL_SENSOR
@@ -73,29 +70,24 @@ class FallSensor(private val context: Context) : SensorEventListener {
     }
 
     private fun showFreeFallDialog() {
-        AlertDialog.Builder(context)
-            .setTitle(R.string.free_fall_detected_title)
-            .setMessage(R.string.free_fall_detected_message)
-            .setNegativeButton(R.string.raise_the_camera) { _, _ ->
+        buildSystemAlert(
+            context = context,
+            title = R.string.free_fall_detected_title,
+            message = R.string.free_fall_detected_message,
+            negativeButtonText = R.string.raise_the_camera,
+            negativeButtonAction = {
                 // Reopen the camera
                 coroutineScope.launch {
                     setMotorDirection(Direction.UP)
                     setMotorEnabled()
                 }
-            }
-            .setPositiveButton(R.string.close) { _, _ ->
+            },
+            positiveButtonText = R.string.close,
+            positiveButtonAction = {
                 // Go back to home screen
-                val intent = Intent(Intent.ACTION_MAIN)
-                    .addCategory(Intent.CATEGORY_HOME)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                context.startActivity(intent)
+                context.startHomeActivity()
             }
-            .setCancelable(true)
-            .create()
-            .apply {
-                window.setType(WindowManager.LayoutParams.TYPE_DISPLAY_OVERLAY)
-                show()
-            }
+        ).show()
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {

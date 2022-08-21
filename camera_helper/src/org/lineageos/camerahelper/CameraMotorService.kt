@@ -17,7 +17,6 @@
 
 package org.lineageos.camerahelper
 
-import android.annotation.NonNull
 import android.app.AlertDialog
 import android.app.Service
 import android.content.Context
@@ -33,7 +32,6 @@ import android.os.UserHandle
 import android.provider.Settings
 import android.util.Log
 import android.view.Display
-import android.view.WindowManager
 
 import androidx.annotation.Keep
 
@@ -130,23 +128,19 @@ class CameraMotorService : Service(), Handler.Callback {
             raiseCamera()
         } else {
             if (alertDialog == null) {
-                alertDialog = AlertDialog.Builder(this)
-                    .setMessage(R.string.popup_camera_dialog_message)
-                    .setNegativeButton(R.string.popup_camera_dialog_no) { _, _ ->
+                alertDialog = buildSystemAlert(
+                    context = this,
+                    message = R.string.popup_camera_dialog_message,
+                    negativeButtonText = R.string.popup_camera_dialog_no,
+                    negativeButtonAction = {
                         // Go back to home screen
-                        val intent = Intent(Intent.ACTION_MAIN)
-                            .addCategory(Intent.CATEGORY_HOME)
-                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        startActivity(intent)
-                    }
-                    .setPositiveButton(R.string.popup_camera_dialog_raise) { _, _ ->
+                        startHomeActivity()
+                    },
+                    positiveButtonText = R.string.popup_camera_dialog_raise,
+                    positiveButtonAction = {
                         raiseCamera()
                     }
-                    .setCancelable(true)
-                    .create()
-                    .apply {
-                        window.setType(WindowManager.LayoutParams.TYPE_DISPLAY_OVERLAY)
-                    }
+                )
             }
             alertDialog?.let { if (!it.isShowing) it.show() }
         }

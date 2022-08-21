@@ -17,14 +17,11 @@
 
 package org.lineageos.camerahelper
 
-import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.os.ServiceManager
 import android.os.RemoteException
 import android.util.Log
 import android.view.KeyEvent
-import android.view.WindowManager
 
 import androidx.annotation.Keep
 
@@ -106,73 +103,57 @@ class KeyHandler : LifecycleService() {
     }
 
     private fun showCameraMotorCannotGoDownWarning() {
-        AlertDialog.Builder(this)
-            .setTitle(R.string.warning)
-            .setMessage(R.string.motor_cannot_go_down_message)
-            .setPositiveButton(R.string.retry) { _, _ ->
+        buildSystemAlert(
+            context = this,
+            title = R.string.warning,
+            message = R.string.motor_cannot_go_down_message,
+            negativeButtonText = R.string.retry,
+            negativeButtonAction = {
                 // Close the camera
                 lifecycleScope.launch(Dispatchers.IO) {
                     setMotorDirection(Direction.DOWN)
                     setMotorEnabled()
                 }
             }
-            .setCancelable(true)
-            .create()
-            .apply {
-                window.setType(WindowManager.LayoutParams.TYPE_DISPLAY_OVERLAY)
-                show()
-            }
+        ).show()
     }
 
     private fun showCameraMotorCannotGoUpWarning() {
-        AlertDialog.Builder(this)
-            .setTitle(R.string.warning)
-            .setMessage(R.string.motor_cannot_go_up_message)
-            .setNegativeButton(R.string.retry) { _, _ ->
+        buildSystemAlert(
+            context = this,
+            title = R.string.warning,
+            message = R.string.motor_cannot_go_up_message,
+            negativeButtonText = R.string.retry,
+            negativeButtonAction = {
                 // Reopen the camera
                 lifecycleScope.launch(Dispatchers.IO) {
                     setMotorDirection(Direction.UP)
                     setMotorEnabled()
                 }
-            }
-            .setPositiveButton(R.string.close) { _, _ ->
+            },
+            positiveButtonText = R.string.close,
+            positiveButtonAction = {
                 // Close the camera
                 lifecycleScope.launch(Dispatchers.IO) {
                     setMotorDirection(Direction.DOWN)
                     setMotorEnabled()
                     withContext(Dispatchers.Main) {
                         // Go back to home screen
-                        goHome()
+                        startHomeActivity()
                     }
                 }
             }
-            .setCancelable(true)
-            .create()
-            .apply {
-                window.setType(WindowManager.LayoutParams.TYPE_DISPLAY_OVERLAY)
-                show()
-            }
-    }
-
-    private fun goHome() {
-        val intent = Intent(Intent.ACTION_MAIN)
-            .addCategory(Intent.CATEGORY_HOME)
-            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
+        ).show()
     }
 
     private fun showCameraMotorPressWarning() {
         // Go back to home to close all camera apps first
-        goHome()
-        AlertDialog.Builder(this)
-            .setTitle(R.string.warning)
-            .setMessage(R.string.motor_press_message)
-            .setPositiveButton(android.R.string.ok, null)
-            .setCancelable(true)
-            .create()
-            .apply {
-                window.setType(WindowManager.LayoutParams.TYPE_DISPLAY_OVERLAY)
-                show()
-            }
+        startHomeActivity()
+        buildSystemAlert(
+            context = this,
+            title = R.string.warning,
+            message = R.string.motor_press_message,
+            positiveButtonText = android.R.string.ok
+        ).show()
     }
 }
