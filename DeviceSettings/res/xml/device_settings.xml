@@ -19,6 +19,7 @@
     <Preference
         android:key="alert_slider"
         android:title="@string/alert_slider"
+        android:summary="@string/alert_slider_summary"
         android:persistent="false">
         <intent android:targetPackage="com.flamingo.device.alertslider"
             android:targetClass="com.flamingo.device.alertslider.SettingsActivity" />
