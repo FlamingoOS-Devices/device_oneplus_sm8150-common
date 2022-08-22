@@ -29,6 +29,7 @@
 
     <!-- AlertSlider -->
     <string name="alert_slider">三段式开关</string>
+    <string name="alert_slider_summary">为每个位置配置响铃模式</string>
 
     <!-- Pop-up camera-->
     <string name="camera_title">相机</string>
