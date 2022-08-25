@@ -26,6 +26,7 @@ android_app {
         "androidx.preference_preference",
         "androidx.lifecycle_lifecycle-runtime-ktx",
         "androidx.fragment_fragment-ktx",
+        "kotlinx_coroutines_android",
         "vendor.oneplus.hardware.camera-V1.0-java",
         "vendor_support",
     ],
