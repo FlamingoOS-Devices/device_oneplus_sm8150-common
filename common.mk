@@ -61,18 +61,20 @@ PRODUCT_COPY_FILES += \
 
 # Audio
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.vendor.audio.sdk.fluencetype=fluence \
-    persist.vendor.audio.fluence.voicerec=true \
     af.fast_track_multiplier=2 \
     audio.deep_buffer.media=true \
-    persist.vendor.audio.hac.enable=false \
     persist.vendor.audio_hal.dsp_bit_width_enforce_mode=24 \
     ro.audio.monitorRotation=true \
     ro.config.vc_call_vol_steps=6 \
     vendor.audio.cts.media=false \
-    vendor.audio.hal.output.suspend.supported=false \
     vendor.audio.noisy.broadcast.delay=600 \
     vendor.audio.offload.pstimeout.secs=3
+
+PRODUCT_ODM_PROPERTIES += \
+    persist.vendor.audio.fluence.voicerec=true \
+    persist.vendor.audio.hac.enable=false \
+    ro.vendor.audio.sdk.fluencetype=fluence \
+    vendor.audio.hal.output.suspend.supported=false
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/audio/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.xml \
