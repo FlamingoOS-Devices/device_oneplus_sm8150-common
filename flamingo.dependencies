@@ -24,21 +24,21 @@
     "clone-depth" : "1"
   },
   {
-    "repository"  : "AOSPA/android_hardware_qcom_display",
+    "repository"  : "hardware_qcom_display",
     "target_path" : "hardware/qcom/display",
-    "remote"      : "github",
-    "branch"      : "sapphire-855"
+    "remote"      : "flamingo",
+    "branch"      : "A13-855"
   },
   {
     "repository"  : "hardware_qcom_media",
     "target_path" : "hardware/qcom/media",
     "remote"      : "flamingo",
-    "branch"      : "A12.1-855"
+    "branch"      : "A13-855"
   },
   {
-    "repository"  : "AOSPA/android_hardware_qcom_audio",
+    "repository"  : "hardware_qcom_audio",
     "target_path" : "vendor/qcom/opensource/audio-hal/primary-hal",
-    "remote"      : "github",
-    "branch"      : "sapphire-855"
+    "remote"      : "flamingo",
+    "branch"      : "A13-855"
   }
 ]
