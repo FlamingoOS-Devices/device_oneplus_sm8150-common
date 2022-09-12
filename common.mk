@@ -223,10 +223,6 @@ PRODUCT_VENDOR_PROPERTIES += \
 PRODUCT_SYSTEM_EXT_PROPERTIES += \
     debug.sf.enable_hwc_vds=1
 
-# Display Mode
-PRODUCT_PACKAGES += \
-    DisplayMode
-
 PRODUCT_VENDOR_PROPERTIES += \
     persist.vendor.dpmhalservice.enable=1
 
