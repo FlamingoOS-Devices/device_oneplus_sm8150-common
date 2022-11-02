@@ -6,7 +6,7 @@
 
 LOCAL_PATH := $(call my-dir)
 
-ifneq ($(filter guacamole guacamoleb guacamoleg hotdog hotdogb,$(TARGET_DEVICE)),)
+ifneq ($(filter oneplus7 oneplus7pro oneplus7proNR oneplus7t oneplus7tpro oneplus7tproNR,$(TARGET_DEVICE)),)
 include $(call all-makefiles-under,$(LOCAL_PATH))
 
 include $(CLEAR_VARS)
