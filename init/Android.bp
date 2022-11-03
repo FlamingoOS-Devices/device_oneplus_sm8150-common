@@ -38,6 +38,13 @@ prebuilt_etc {
     vendor: true,
 }
 
+prebuilt_etc {
+    name: "ueventd.oplus.rc",
+    filename: "ueventd.rc",
+    src: "ueventd.oplus.rc",
+    device_specific: true,
+}
+
 sh_binary {
     name: "init.class_main.sh",
     src: "init.class_main.sh",
@@ -84,6 +91,7 @@ soong_config_string_variable {
 
 oplus_msmnile_init_prebuilt_etc {
     name: "fstab.qcom",
+    filename: "fstab.qcom" ,
     soong_config_variables: {
         PARTITION_SCHEME: {
             dynamic: {
@@ -95,5 +103,4 @@ oplus_msmnile_init_prebuilt_etc {
         },
     },
     vendor: true,
-    ramdisk_available: true,
 }
