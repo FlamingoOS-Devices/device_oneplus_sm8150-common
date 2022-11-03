@@ -67,3 +67,33 @@ sh_binary {
     src: "init.qcom.sh",
     vendor: true,
 }
+
+// fstab
+soong_config_module_type {
+    name: "oplus_msmnile_init_prebuilt_etc",
+    module_type: "prebuilt_etc",
+    config_namespace: "OPLUS_MSMNILE_INIT",
+    variables: ["PARTITION_SCHEME"],
+    properties: ["src"],
+}
+
+soong_config_string_variable {
+    name: "PARTITION_SCHEME",
+    values: ["dynamic", "non_dynamic"],
+}
+
+oplus_msmnile_init_prebuilt_etc {
+    name: "fstab.qcom",
+    soong_config_variables: {
+        PARTITION_SCHEME: {
+            dynamic: {
+                src: "fstab.qcom",
+            },
+            non_dynamic: {
+                src: "fstab_non_dynamic.qcom",
+            },
+        },
+    },
+    vendor: true,
+    ramdisk_available: true,
+}
