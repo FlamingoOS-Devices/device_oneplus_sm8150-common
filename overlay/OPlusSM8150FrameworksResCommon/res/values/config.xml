@@ -31,33 +31,35 @@
 
     <!-- Vibrator pattern for feedback about a long screen/key press -->
     <integer-array name="config_longPressVibePattern">
-        <item>0</item>
-        <item>10</item>
+        <item>@null</item>
+        <item>1</item>
+        <item>20</item>
+        <item>21</item>
     </integer-array>
 
     <!-- Vibrator pattern for feedback about touching a virtual key -->
     <integer-array name="config_virtualKeyVibePattern">
-        <item>0</item>
-        <item>10</item>
+        <item>13</item>
+        <item>18</item>
+        <item>23</item>
     </integer-array>
 
     <!-- Vibrator pattern for a very short but reliable vibration for soft keyboard tap -->
     <integer-array name="config_keyboardTapVibePattern">
-        <item>10</item>
+        <item>40</item>
     </integer-array>
+
+    <integer-array name="config_defaultNotificationVibePattern">
+        <item>0</item>
+        <item>80</item>
+        <item>120</item>
+        <item>40</item>
+    </integer-array>
+
+    <bool name="config_enableHapticTextHandle">true</bool>
 
     <!-- Indicate available ColorDisplayManager.COLOR_MODE_xxx. -->
     <integer-array name="config_availableColorModes" />
-
-    <!-- Default list of files pinned by the Pinner Service -->
-    <string-array translatable="false" name="config_defaultPinnerServiceFiles">
-        <item>"/system/framework/framework.jar"</item>
-        <item>"/system/framework/services.jar"</item>
-        <item>"/apex/com.android.art/javalib/core-oj.jar"</item>
-        <item>"/apex/com.android.art/javalib/core-libart.jar"</item>
-        <item>"/system_ext/priv-app/SystemUI/SystemUI.apk"</item>
-        <item>"/system/bin/surfaceflinger"</item>
-    </string-array>
 
     <!-- Screen brightness used to dim the screen while dozing in a very low power state.
          May be less than the minimum allowed brightness setting
@@ -107,5 +109,24 @@
          Refer to autosuspend.h for details.
     -->
     <bool name="config_powerDecoupleAutoSuspendModeFromDisplay">true</bool>
+
+    <!-- If true, the display will be shifted around in ambient mode. -->
+    <bool name="config_enableBurnInProtection">true</bool>
+
+    <!-- Specifies the maximum burn-in offset displacement from the center. If -1, no maximum value
+         will be used. -->
+    <integer name="config_burnInProtectionMaxRadius">-1</integer>
+
+    <!-- Specifies the minimum burn-in offset horizontally. -->
+    <integer name="config_burnInProtectionMinHorizontalOffset">-15</integer>
+
+    <!-- Specifies the maximum burn-in offset horizontally. -->
+    <integer name="config_burnInProtectionMaxHorizontalOffset">15</integer>
+
+    <!-- Specifies the minimum burn-in offset vertically. -->
+    <integer name="config_burnInProtectionMinVerticalOffset">-40</integer>
+
+    <!-- Specifies the maximum burn-in offset vertically. -->
+    <integer name="config_burnInProtectionMaxVerticalOffset">40</integer>
 
 </resources>

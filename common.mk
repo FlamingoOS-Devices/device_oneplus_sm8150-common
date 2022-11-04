@@ -436,10 +436,15 @@ PRODUCT_PACKAGES += \
     libOmxVidcCommon \
     libstagefrighthw
 
-DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay-lineage
-
 PRODUCT_ENFORCE_RRO_TARGETS := *
+
+# Overlays
+PRODUCT_PACKAGES += \
+    FlamingoOPlusSM8150Frameworks \
+    FlamingoOPlusSM8150SystemUI \
+    OPlusSM8150FrameworksResCommon \
+    OPlusSM8150FrameworksResTarget \
+    OPlusSM8150Settings
 
 # Platform
 TARGET_BOARD_PLATFORM := msmnile
