@@ -262,8 +262,8 @@ PRODUCT_PACKAGES += \
     OplusDoze
 
 # DeviceSettings
-PRODUCT_PACKAGES += \
-    DeviceSettings
+# PRODUCT_PACKAGES += \
+#     DeviceSettings
 
 # DRM
 PRODUCT_PACKAGES += \
