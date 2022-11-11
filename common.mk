@@ -74,6 +74,8 @@ PRODUCT_ODM_PROPERTIES += \
     persist.vendor.audio.fluence.voicerec=true \
     persist.vendor.audio.hac.enable=false \
     ro.vendor.audio.sdk.fluencetype=fluence \
+    ro.config.media_vol_steps=30 \
+    ro.config.vc_call_vol_steps=6 \
     vendor.audio.hal.output.suspend.supported=false
 
 PRODUCT_COPY_FILES += \
