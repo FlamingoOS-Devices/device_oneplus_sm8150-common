@@ -18,6 +18,7 @@
 package org.lineageos.camerahelper
 
 import android.content.Intent
+import android.os.Binder
 import android.os.ServiceManager
 import android.os.RemoteException
 import android.util.Log
@@ -55,11 +56,12 @@ private const val DEVICE_KEY_MANAGER = "device_key_manager"
 @Keep
 class KeyHandler : LifecycleService() {
 
-    private val eventChannel = Channel<KeyEvent>(capacity = Channel.CONFLATED)
+    private val eventChannel = Channel<Int>(capacity = Channel.CONFLATED)
+    private val token = Binder()
     private val keyHandler = object : IKeyHandler.Stub() {
         override fun handleKeyEvent(keyEvent: KeyEvent) {
             lifecycleScope.launch {
-                eventChannel.send(keyEvent)
+                eventChannel.send(keyEvent.scanCode)
             }
         }
     }
@@ -71,19 +73,35 @@ class KeyHandler : LifecycleService() {
         }
     }
 
-    private suspend fun registerKeyHandler() {
+    private fun getDeviceKeyManager(): IDeviceKeyManager? {
         val service = ServiceManager.getService(DEVICE_KEY_MANAGER) ?: run {
             Log.wtf(TAG, "Device key manager service not found")
-            return
+            return null
         }
+        return IDeviceKeyManager.Stub.asInterface(service)
+    }
+
+    private suspend fun registerKeyHandler() {
         try {
-            IDeviceKeyManager.Stub.asInterface(service)
-                .registerKeyHandler(keyHandler, ScanCodes, Actions)
+            getDeviceKeyManager()?.registerKeyHandler(token, keyHandler, ScanCodes, Actions, -1)
             handleKeyEvents()
         } catch(e: RemoteException) {
             Log.e(TAG, "Failed to register key handler", e)
             stopSelf()
         }
+    }
+
+    private fun unregisterKeyHandler() {
+        try {
+            getDeviceKeyManager()?.unregisterKeyHandler(token)
+        } catch(e: RemoteException) {
+            Log.e(TAG, "Failed to register key handler", e)
+        }
+    }
+
+    override fun onDestroy() {
+        unregisterKeyHandler()
+        super.onDestroy()
     }
 
     private suspend fun handleKeyEvents() {
@@ -94,8 +112,8 @@ class KeyHandler : LifecycleService() {
         }
     }
 
-    private fun handleKeyEvent(event: KeyEvent) {
-        when (event.scanCode) {
+    private fun handleKeyEvent(scanCode: Int) {
+        when (scanCode) {
             MOTOR_EVENT_MANUAL_TO_DOWN -> showCameraMotorPressWarning()
             MOTOR_EVENT_UP_ABNORMAL -> showCameraMotorCannotGoUpWarning()
             MOTOR_EVENT_DOWN_ABNORMAL -> showCameraMotorCannotGoDownWarning()
