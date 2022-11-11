@@ -69,6 +69,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     af.fast_track_multiplier=1
 
 PRODUCT_ODM_PROPERTIES += \
+    ro.config.media_vol_steps=30 \
+    ro.config.vc_call_vol_steps=6 \
     ro.soc.manufacturer=Qualcomm \
     ro.soc.model=SM8150
 
