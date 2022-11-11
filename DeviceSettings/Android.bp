@@ -30,8 +30,7 @@ android_app {
         "vendor_support",
     ],
     required: [
-        "AlertSlider",
-        "TouchScreenGestureHandler",
+        "OplusHwManager",
         "privapp_whitelist_com.flamingo.settings.device",
     ],
     srcs: [

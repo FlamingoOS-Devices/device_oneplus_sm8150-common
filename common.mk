@@ -17,11 +17,6 @@ AB_OTA_POSTINSTALL_CONFIG += \
 PRODUCT_PACKAGES += \
     otapreopt_script
 
-# Alert slider
-PRODUCT_PACKAGES += \
-    KeyHandler \
-    tri-state-key-calibrate
-
 # Audio
 PRODUCT_PACKAGES += \
     android.hardware.audio.service \
@@ -255,8 +250,8 @@ PRODUCT_PACKAGES += \
     OplusDoze
 
 # DeviceSettings
-# PRODUCT_PACKAGES += \
-#     DeviceSettings
+PRODUCT_PACKAGES += \
+    DeviceSettings
 
 # DRM
 PRODUCT_PACKAGES += \
