@@ -72,6 +72,7 @@ PRODUCT_ODM_PROPERTIES += \
     ro.audio.monitorRotation=true \
     ro.config.media_vol_steps=30 \
     ro.config.vc_call_vol_steps=6 \
+    ro.vendor.qti.va_odm.support=1 \
     ro.soc.manufacturer=Qualcomm \
     ro.soc.model=SM8150
 
