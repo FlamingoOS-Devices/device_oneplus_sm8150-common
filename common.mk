@@ -272,6 +272,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_SYSTEM_EXT_PROPERTIES += \
     ro.fastbootd.available=true
 
+# Firmware
+$(call inherit-product, vendor/oneplus/firmware/Android.mk)
+
 # Fingerprint
 PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint@2.3-service.oplus \
