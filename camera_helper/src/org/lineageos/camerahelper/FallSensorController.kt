@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 private val TAG = FallSensorController::class.simpleName!!
 private val DEBUG = Log.isLoggable(TAG, Log.DEBUG)
 
-private const val FALL_SENSOR = "oneplus.sensor.free_fall"
+private const val FALL_SENSOR = "camera_protect"
 
 class FallSensorController(
     private val context: Context,
