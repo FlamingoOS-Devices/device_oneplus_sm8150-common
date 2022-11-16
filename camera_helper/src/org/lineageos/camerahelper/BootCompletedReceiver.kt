@@ -23,17 +23,13 @@ import android.content.Intent
 import android.os.UserHandle
 import android.util.Log
 
-import androidx.annotation.Keep
+private const val TAG = "OnePlusCameraHelper/BootCompletedReceiver"
 
-private const val TAG = "OnePlusCameraHelper"
-
-@Keep
 class BootCompletedReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent?) {
         if (intent?.action != Intent.ACTION_LOCKED_BOOT_COMPLETED) return
         Log.i(TAG, "Starting services")
-        context.startServiceAsUser(Intent(context, CameraMotorService::class.java), UserHandle.SYSTEM)
-        context.startServiceAsUser(Intent(context, FallSensorService::class.java), UserHandle.SYSTEM)
+        context.startServiceAsUser(Intent(context, BackgroundService::class.java), UserHandle.SYSTEM)
     }
 }

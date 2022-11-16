@@ -11,10 +11,18 @@ android_app {
     system_ext_specific: true,
 
     static_libs: [
-        "androidx.annotation_annotation",
         "androidx.lifecycle_lifecycle-runtime-ktx",
         "androidx.lifecycle_lifecycle-service",
-	    "kotlinx_coroutines_android",
-	    "vendor_support",
+        "kotlinx_coroutines_android",
+        "kotlinx_coroutines",
     ],
+
+    optimize: {
+        enabled: true,
+        optimize: true,
+        shrink: true,
+        proguard_flags_files: [
+            "proguard.flags",
+        ],
+    },
 }

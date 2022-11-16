@@ -1,0 +1,3 @@
+-keep class androidx.startup.InitializationProvider
+-keep class org.lineageos.camerahelper.BackgroundService
+-keep class org.lineageos.camerahelper.BootCompletedReceiver

@@ -17,7 +17,10 @@
 
 package org.lineageos.camerahelper
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -25,30 +28,79 @@ import android.hardware.SensorManager
 import android.util.Log
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-private val TAG = FallSensor::class.simpleName!!
+private val TAG = FallSensorController::class.simpleName!!
 private val DEBUG = Log.isLoggable(TAG, Log.DEBUG)
 
-private const val FALL_SENSOR = "camera_protect"
+private const val FALL_SENSOR = "oneplus.sensor.free_fall"
 
-class FallSensor(private val context: Context) : SensorEventListener {
+class FallSensorController(
+    private val context: Context,
+    private val coroutineScope: CoroutineScope
+) : SensorEventListener {
 
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
     private val sensorManager = context.getSystemService(SensorManager::class.java)
     private val sensor: Sensor? = sensorManager.getSensorList(Sensor.TYPE_ALL).find {
         it.stringType == FALL_SENSOR
     }
 
+    private val screenStateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            when (intent?.action) {
+                Intent.ACTION_SCREEN_ON -> {
+                    if (DEBUG) Log.d(TAG, "Screen on, enabling fall sensor")
+                    enableSensor()
+                }
+                Intent.ACTION_SCREEN_OFF -> {
+                    if (DEBUG) Log.d(TAG, "Screen off, disabling fall sensor")
+                    disableSensor()
+                }
+            }
+        }
+    }
+
     private var registered = false
 
-    init {
+    fun init() {
+        context.registerReceiver(
+            screenStateReceiver,
+            IntentFilter().apply {
+                addAction(Intent.ACTION_SCREEN_OFF)
+                addAction(Intent.ACTION_SCREEN_ON)
+            }
+        )
+        enableSensor()
+    }
+
+    private fun enableSensor() {
         if (sensor == null) {
-            Log.e(TAG, "Failed to find fall sensor $FALL_SENSOR")
+            Log.e(TAG, "Cannot enable since sensor is null")
+            return
         }
+        if (registered) {
+            if (DEBUG) Log.d(TAG, "Not enabling since it is already registered")
+            return
+        }
+        sensorManager.registerListener(
+            this,
+            sensor,
+            SensorManager.SENSOR_DELAY_FASTEST
+        )
+        registered = true
+    }
+
+    private fun disableSensor() {
+        if (sensor == null) {
+            Log.e(TAG, "Cannot disable since sensor is null")
+            return
+        }
+        if (!registered) {
+            if (DEBUG) Log.d(TAG, "Not enabling since it is not registered")
+            return
+        }
+        sensorManager.unregisterListener(this, sensor)
+        registered = false
     }
 
     override fun onSensorChanged(event: SensorEvent) {
@@ -63,9 +115,7 @@ class FallSensor(private val context: Context) : SensorEventListener {
             setMotorDirection(Direction.DOWN)
             setMotorEnabled()
 
-            withContext(Dispatchers.Main) {
-                showFreeFallDialog()
-            }
+            showFreeFallDialog()
         }
     }
 
@@ -94,46 +144,8 @@ class FallSensor(private val context: Context) : SensorEventListener {
         /* Empty */
     }
 
-    fun enable() {
-        if (registered) {
-            if (DEBUG) Log.d(TAG, "Sensor already registered")
-            return
-        }
-        if (sensor == null) {
-            Log.e(TAG, "Cannot enable since sensor is null")
-            return
-        }
-        if (DEBUG) Log.d(TAG, "Enabling")
-        coroutineScope.launch {
-            sensorManager.registerListener(
-                this@FallSensor,
-                sensor,
-                SensorManager.SENSOR_DELAY_FASTEST
-            )
-        }.invokeOnCompletion {
-            registered = true
-        }
-    }
-
-    fun disable() {
-        if (!registered) {
-            if (DEBUG) Log.d(TAG, "Sensor already unregistered")
-            return
-        }
-        if (sensor == null) {
-            Log.e(TAG, "Cannot disable since sensor is null")
-            return
-        }
-        if (DEBUG) Log.d(TAG, "Disabling")
-        coroutineScope.launch {
-            sensorManager.unregisterListener(this@FallSensor, sensor)
-        }.invokeOnCompletion {
-            registered = false
-        }
-    }
-
     fun destroy() {
-        disable()
-        coroutineScope.cancel()
+        context.unregisterReceiver(screenStateReceiver)
+        disableSensor()
     }
 }

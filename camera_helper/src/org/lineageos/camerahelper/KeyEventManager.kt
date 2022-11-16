@@ -17,58 +17,48 @@
 
 package org.lineageos.camerahelper
 
-import android.content.Intent
+import android.content.Context
 import android.os.Binder
 import android.os.ServiceManager
 import android.os.RemoteException
 import android.util.Log
 import android.view.KeyEvent
 
-import androidx.annotation.Keep
-
-import androidx.lifecycle.LifecycleService
-import androidx.lifecycle.lifecycleScope
-
 import com.android.internal.os.IDeviceKeyManager
 import com.android.internal.os.IKeyHandler
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private val TAG = KeyHandler::class.simpleName!!
+private val TAG = KeyEventManager::class.simpleName!!
 
 // Camera motor event key codes
 private const val MOTOR_EVENT_MANUAL_TO_DOWN = 184
 private const val MOTOR_EVENT_UP_ABNORMAL = 186
 private const val MOTOR_EVENT_DOWN_ABNORMAL = 189
 
-private val ScanCodes = intArrayOf(
-    MOTOR_EVENT_MANUAL_TO_DOWN,
-    MOTOR_EVENT_UP_ABNORMAL,
-    MOTOR_EVENT_DOWN_ABNORMAL
-)
-private val Actions = intArrayOf(KeyEvent.ACTION_DOWN)
-
 private const val DEVICE_KEY_MANAGER = "device_key_manager"
 
-@Keep
-class KeyHandler : LifecycleService() {
+class KeyEventManager(
+    private val context: Context,
+    private val coroutineScope: CoroutineScope
+) {
 
     private val eventChannel = Channel<Int>(capacity = Channel.CONFLATED)
     private val token = Binder()
     private val keyHandler = object : IKeyHandler.Stub() {
         override fun handleKeyEvent(keyEvent: KeyEvent) {
-            lifecycleScope.launch {
+            coroutineScope.launch {
                 eventChannel.send(keyEvent.scanCode)
             }
         }
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        lifecycleScope.launch(Dispatchers.Default) {
+    fun init() {
+        coroutineScope.launch(Dispatchers.Default) {
             registerKeyHandler()
         }
     }
@@ -83,11 +73,20 @@ class KeyHandler : LifecycleService() {
 
     private suspend fun registerKeyHandler() {
         try {
-            getDeviceKeyManager()?.registerKeyHandler(token, keyHandler, ScanCodes, Actions, -1)
+            getDeviceKeyManager()?.registerKeyHandler(
+                token,
+                keyHandler,
+                intArrayOf(
+                    MOTOR_EVENT_MANUAL_TO_DOWN,
+                    MOTOR_EVENT_UP_ABNORMAL,
+                    MOTOR_EVENT_DOWN_ABNORMAL
+                ),
+                intArrayOf(KeyEvent.ACTION_DOWN),
+                -1
+            )
             handleKeyEvents()
         } catch(e: RemoteException) {
             Log.e(TAG, "Failed to register key handler", e)
-            stopSelf()
         }
     }
 
@@ -99,9 +98,8 @@ class KeyHandler : LifecycleService() {
         }
     }
 
-    override fun onDestroy() {
+    fun destroy() {
         unregisterKeyHandler()
-        super.onDestroy()
     }
 
     private suspend fun handleKeyEvents() {
@@ -122,13 +120,13 @@ class KeyHandler : LifecycleService() {
 
     private fun showCameraMotorCannotGoDownWarning() {
         buildSystemAlert(
-            context = this,
+            context = context,
             title = R.string.warning,
             message = R.string.motor_cannot_go_down_message,
             negativeButtonText = R.string.retry,
             negativeButtonAction = {
                 // Close the camera
-                lifecycleScope.launch(Dispatchers.IO) {
+                coroutineScope.launch {
                     setMotorDirection(Direction.DOWN)
                     setMotorEnabled()
                 }
@@ -138,13 +136,13 @@ class KeyHandler : LifecycleService() {
 
     private fun showCameraMotorCannotGoUpWarning() {
         buildSystemAlert(
-            context = this,
+            context = context,
             title = R.string.warning,
             message = R.string.motor_cannot_go_up_message,
             negativeButtonText = R.string.retry,
             negativeButtonAction = {
                 // Reopen the camera
-                lifecycleScope.launch(Dispatchers.IO) {
+                coroutineScope.launch {
                     setMotorDirection(Direction.UP)
                     setMotorEnabled()
                 }
@@ -152,13 +150,11 @@ class KeyHandler : LifecycleService() {
             positiveButtonText = R.string.close,
             positiveButtonAction = {
                 // Close the camera
-                lifecycleScope.launch(Dispatchers.IO) {
+                coroutineScope.launch {
                     setMotorDirection(Direction.DOWN)
                     setMotorEnabled()
-                    withContext(Dispatchers.Main) {
-                        // Go back to home screen
-                        startHomeActivity()
-                    }
+                    // Go back to home screen
+                    context.startHomeActivity()
                 }
             }
         ).show()
@@ -166,9 +162,9 @@ class KeyHandler : LifecycleService() {
 
     private fun showCameraMotorPressWarning() {
         // Go back to home to close all camera apps first
-        startHomeActivity()
+        context.startHomeActivity()
         buildSystemAlert(
-            context = this,
+            context = context,
             title = R.string.warning,
             message = R.string.motor_press_message,
             positiveButtonText = android.R.string.ok
