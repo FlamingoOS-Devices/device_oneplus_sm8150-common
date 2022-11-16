@@ -24,10 +24,10 @@ namespace touch {
 namespace V1_0 {
 namespace implementation {
 
-const int TouchscreenGesture::kSupportedGestures =
-        makeBitField(kGestureUpVee, kGestureLeftVee, kGestureRightVee, kGestureCircle,
-                     kGestureLeftToRight, kGestureRightToLeft, kGestureUpToDown, kGestureDownToUp,
-                     kGestureM, kGestureW, kGestureSingleTap, kGestureS);
+const int TouchscreenGesture::kSupportedGestures = makeBitField(
+        kGestureDoubleTap, kGestureUpVee, kGestureLeftVee, kGestureRightVee,
+        kGestureCircle, kGestureDoubleSwipe, kGestureUpToDown, kGestureDownToUp,
+        kGestureM, kGestureW, kGestureSingleTap, kGestureHeart, kGestureS);
 
 }  // namespace implementation
 }  // namespace V1_0
