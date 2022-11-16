@@ -17,10 +17,7 @@
 
 package org.lineageos.camerahelper
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -45,31 +42,9 @@ class FallSensorController(
         it.stringType == FALL_SENSOR
     }
 
-    private val screenStateReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent?) {
-            when (intent?.action) {
-                Intent.ACTION_SCREEN_ON -> {
-                    if (DEBUG) Log.d(TAG, "Screen on, enabling fall sensor")
-                    enableSensor()
-                }
-                Intent.ACTION_SCREEN_OFF -> {
-                    if (DEBUG) Log.d(TAG, "Screen off, disabling fall sensor")
-                    disableSensor()
-                }
-            }
-        }
-    }
-
     private var registered = false
 
     fun init() {
-        context.registerReceiver(
-            screenStateReceiver,
-            IntentFilter().apply {
-                addAction(Intent.ACTION_SCREEN_OFF)
-                addAction(Intent.ACTION_SCREEN_ON)
-            }
-        )
         enableSensor()
     }
 
@@ -88,6 +63,16 @@ class FallSensorController(
             SensorManager.SENSOR_DELAY_FASTEST
         )
         registered = true
+    }
+
+    fun setScreenOn(screenOn: Boolean) {
+        if (screenOn) {
+            if (DEBUG) Log.d(TAG, "Screen on, enabling fall sensor")
+            enableSensor()
+        } else {
+            if (DEBUG) Log.d(TAG, "Screen off, disabling fall sensor")
+            disableSensor()
+        }
     }
 
     private fun disableSensor() {
@@ -145,7 +130,6 @@ class FallSensorController(
     }
 
     fun destroy() {
-        context.unregisterReceiver(screenStateReceiver)
         disableSensor()
     }
 }

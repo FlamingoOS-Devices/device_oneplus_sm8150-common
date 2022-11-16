@@ -17,7 +17,10 @@
 
 package org.lineageos.camerahelper
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.IBinder
 
 import androidx.lifecycle.LifecycleService
@@ -35,8 +38,30 @@ class BackgroundService : LifecycleService() {
         KeyEventManager(this, lifecycleScope)
     }
 
+    private val screenStateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            when (intent?.action) {
+                Intent.ACTION_SCREEN_ON -> {
+                    cameraMotorController.setScreenOn(true)
+                    fallSensorController.setScreenOn(true)
+                }
+                Intent.ACTION_SCREEN_OFF -> {
+                    cameraMotorController.setScreenOn(false)
+                    fallSensorController.setScreenOn(false)
+                }
+            }
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
+        registerReceiver(
+            screenStateReceiver,
+            IntentFilter().apply {
+                addAction(Intent.ACTION_SCREEN_OFF)
+                addAction(Intent.ACTION_SCREEN_ON)
+            }
+        )
         cameraMotorController.init()
         fallSensorController.init()
         keyEventManager.init()
@@ -45,6 +70,7 @@ class BackgroundService : LifecycleService() {
     override fun onBind(intent: Intent): IBinder? = null
 
     override fun onDestroy() {
+        unregisterReceiver(screenStateReceiver)
         cameraMotorController.destroy()
         fallSensorController.destroy()
         keyEventManager.destroy()

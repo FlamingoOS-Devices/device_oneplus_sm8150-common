@@ -21,12 +21,10 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.hardware.camera2.CameraManager
-import android.hardware.display.DisplayManager
 import android.os.FileUtils
 import android.os.UserHandle
 import android.provider.Settings
 import android.util.Log
-import android.view.Display
 
 import java.io.File
 
@@ -86,11 +84,11 @@ class CameraMotorController(
 ) {
 
     private val cameraManager = context.getSystemService(CameraManager::class.java)
-    private val displayManager = context.getSystemService(DisplayManager::class.java)
     private val eventChannel = Channel<Event>(capacity = Channel.CONFLATED)
 
     private var alertDialog: AlertDialog? = null
     private var eventJob: Job? = null
+    private var screenOn = false
 
     private val availabilityCallback = object : CameraManager.AvailabilityCallback() {
         override fun onCameraClosed(cameraId: String) {
@@ -128,6 +126,10 @@ class CameraMotorController(
         }
     }
 
+    fun setScreenOn(screenOn: Boolean) {
+        this.screenOn = screenOn
+    }
+
     private suspend fun handleEvent(event: Event) {
         when (event) {
             Event.CLOSE -> lowerCamera()
@@ -136,7 +138,6 @@ class CameraMotorController(
     }
 
     private suspend fun maybeRaiseCamera() {
-        val screenOn = displayManager.displays.any { it.state != Display.STATE_OFF }
         val alwaysOnDialog = withContext(Dispatchers.IO) {
             Settings.System.getIntForUser(
                 context.contentResolver,
