@@ -43,7 +43,7 @@ private val DEBUG = Log.isLoggable(TAG, Log.DEBUG)
 // Should follow KEY_SETTINGS_PREFIX + KEY_ALWAYS_CAMERA_DIALOG From DeviceSettings
 private const val ALWAYS_ON_DIALOG_KEY = "device_setting_always_on_camera_dialog"
 
-private const val CAMERA_EVENT_DELAY_TIME = 200L // ms
+private const val CAMERA_EVENT_DELAY_TIME = 50L // ms
 
 private const val FRONT_CAMERA_ID = "1"
 
