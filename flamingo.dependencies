@@ -12,6 +12,10 @@
     "target_path" : "vendor/oneplus/sm8150-common"
   },
   {
+    "repository"  : "hardware_dolby",
+    "target_path" : "hardware/dolby"
+  },
+  {
     "repository"  : "vendor_oneplus_firmware",
     "target_path" : "vendor/oneplus/firmware",
     "remote"	  : "flamingo-gitlab",
