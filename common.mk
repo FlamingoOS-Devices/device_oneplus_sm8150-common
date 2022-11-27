@@ -440,6 +440,7 @@ PRODUCT_ENFORCE_RRO_TARGETS := *
 
 # Overlays
 PRODUCT_PACKAGES += \
+    FlamingoOplusSM8150Doze \
     FlamingoOPlusSM8150Frameworks \
     FlamingoOPlusSM8150SystemUI \
     OPlusSM8150FrameworksResCommon \
