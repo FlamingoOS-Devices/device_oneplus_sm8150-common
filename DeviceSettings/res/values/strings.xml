@@ -37,8 +37,4 @@
     <string name="always_on_camera_dialog_summary_on">Always ask before opening</string>
     <string name="always_on_camera_dialog_summary_off">Only ask when the screen is off</string>
 
-    <!-- Dolby -->
-    <string name="dolby_title">Dolby Atmos</string>
-    <string name="dolby_summary">Dynamic, Music, Movie modes and more</string>
-
 </resources>

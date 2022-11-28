@@ -25,15 +25,6 @@
             android:targetClass="com.flamingo.device.alertslider.SettingsActivity" />
     </Preference>
 
-    <Preference
-        android:key="audio_dolby_atmos"
-        android:title="@string/dolby_title"
-        android:summary="@string/dolby_summary">
-        <intent
-                android:targetPackage="com.oneplus.sound.tuner"
-                android:targetClass="com.oneplus.sound.tuner.panoramic.DolbyPanoramicSoundActivity" />
-    </Preference>
-
     <com.flamingo.support.preference.SystemSettingSwitchPreference
         android:key="device_setting_always_on_camera_dialog"
         android:title="@string/always_on_camera_dialog_title"
@@ -61,5 +52,5 @@
         android:key="vibration_footer_preference"
         android:title="@string/vibration_warning"
         android:selectable="false" />
-    
+
 </PreferenceScreen>
