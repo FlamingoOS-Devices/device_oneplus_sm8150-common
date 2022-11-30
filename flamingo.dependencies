@@ -1,7 +1,8 @@
 [
   {
     "repository"  : "kernel_oneplus_sm8150",
-    "target_path" : "kernel/msm-4.14"
+    "target_path" : "kernel/msm-4.14",
+    "branch"      : "A13-oplus"
   },
   {
     "repository"  : "hardware_oplus",
@@ -9,7 +10,8 @@
   },
   {
     "repository"  : "vendor_oneplus_sm8150-common",
-    "target_path" : "vendor/oneplus/sm8150-common"
+    "target_path" : "vendor/oneplus/sm8150-common",
+    "branch"      : "A13-oplus"
   },
   {
     "repository"  : "hardware_dolby",
