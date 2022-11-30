@@ -4,8 +4,8 @@
     "target_path" : "kernel/msm-4.14"
   },
   {
-    "repository"  : "device_oneplus_common",
-    "target_path" : "device/oneplus/common"
+    "repository"  : "hardware_oplus",
+    "target_path" : "hardware/oplus"
   },
   {
     "repository"  : "vendor_oneplus_sm8150-common",
@@ -18,13 +18,13 @@
   {
     "repository"  : "vendor_oneplus_firmware",
     "target_path" : "vendor/oneplus/firmware",
-    "remote"	  : "flamingo-gitlab",
+    "remote"	    : "flamingo-gitlab",
     "clone-depth" : "1"
   },
   {
     "repository"  : "dora_clang",
     "target_path" : "prebuilts/clang-standalone",
-    "remote"	  : "flamingo-gitlab",
+    "remote"	    : "flamingo-gitlab",
     "clone-depth" : "1"
   },
   {
