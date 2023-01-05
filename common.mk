@@ -357,9 +357,13 @@ PRODUCT_PACKAGES += \
     android.system.net.netd@1.1.vendor
 
 # Sensors
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
+
 PRODUCT_PACKAGES += \
     als_correction_service.oneplus_msmnile \
     android.hardware.sensors@2.1-service.oneplus_msmnile \
+    sensors.oneplus \
     libsensorndkbridge
 
 PRODUCT_SYSTEM_EXT_PROPERTIES += \

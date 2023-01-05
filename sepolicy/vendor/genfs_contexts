@@ -30,3 +30,5 @@ genfscon sysfs /devices/virtual/fastrpc/adsprpc-smd/wakeup u:object_r:sysfs_wake
 # apply zram context to avoid complicating policies
 genfscon sysfs /devices/virtual/block/vbswap0        u:object_r:sysfs_zram:s0
 genfscon sysfs /devices/virtual/block/vbswap0/uevent u:object_r:sysfs_zram_uevent:s0
+
+genfscon sysfs /devices/platform/soc/soc:goodix_fp/udfps_pressed u:object_r:vendor_sysfs_sensors:s0
