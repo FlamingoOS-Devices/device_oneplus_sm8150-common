@@ -114,9 +114,6 @@
     <!-- Flag indicating if device supports EAP SIM, AKA, AKA' -->
     <bool name="config_eap_sim_based_auth_supported">true</bool>
 
-    <!-- Whether device supports double tap to wake -->
-    <bool name="config_supportDoubleTapWake">true</bool>
-
     <!-- Values for GPS configuration -->
     <string-array translatable="false" name="config_gpsParameters">
         <item>SUPL_HOST=supl.google.com</item>
