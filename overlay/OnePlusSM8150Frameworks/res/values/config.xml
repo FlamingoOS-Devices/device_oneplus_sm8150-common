@@ -60,8 +60,8 @@
     <bool name="config_carrier_wfc_ims_available">true</bool>
 
     <!-- Screen brightness when dozing. -->
-    <integer name="config_screenBrightnessDoze">21</integer>
-    <item name="config_screenBrightnessDozeFloat" format="float" type="dimen">0.07874</item>
+    <integer name="config_screenBrightnessDoze">30</integer>
+    <item name="config_screenBrightnessDozeFloat" format="float" type="dimen">0.1</item>
 
     <!-- Control whether the always on display mode is available. This should only be enabled on
          devices where the display has been tuned to be power efficient in DOZE and/or DOZE_SUSPEND
